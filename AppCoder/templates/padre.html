@@ -17,6 +17,11 @@
         <link href="{% static 'AppCoder/css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
+
+        {% if mensaje %}
+            <p>{{mensaje}}</p>
+        {% endif %}    
+
         <!-- Navigation-->
         <nav class="navbar navbar-light bg-light static-top">
             <div class ="container">
