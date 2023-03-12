@@ -230,8 +230,6 @@ class ClienteDelete (DeleteView):
 
 
 
-
-
 def leerProveedores (request):
     proveedores = Proveedor.objects.all()
     contexto = {"proveedores":proveedores}
