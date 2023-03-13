@@ -2,15 +2,25 @@ from django.shortcuts import render
 from AppCoder.models import Producto, Cliente, Proveedor
 from django.http import HttpResponse
 from AppCoder.forms import ProductoFormulario, ClienteFormulario, ProveedorFormulario
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from AppCoder.forms import UserRegisterForm
+from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here. Prueba de actualización
+
+#class ClaseQueNecesitaLogin (LoginRequiredMixin):
+
+
+@login_required
+def inicio (request):
+    return render(request, 'inicio.html')
 
 def login_request(request):
     if request.method == "POST":
@@ -32,10 +42,30 @@ def login_request(request):
     return render (request, 'login.html', {"form":form})
 
 
+def register (request):
+    if request.method == 'POST':
+        #form = UserCreationForm (request.POST)
+        form = UserRegisterForm (request.POST)
+        if form.is_valid():
+            username = form.cleaned_data ['username']
+            form.save()
+            return render (request, 'inicio.html', {'mensaje': 'Usuario creado. '})
+    else:
+        #form = UserCreationForm()
+        form = UserRegisterForm ()
+    return render (request, 'registro.html', {'form': form} )     
 
-def inicio (request):
+
+
+
+
+
+
+
+
+#def inicio (request):
     #return HttpResponse ("Vista Inicio")
-    return render (request, 'inicio.html')
+#    return render (request, 'inicio.html')
 
 def entregables (request):
     #return HttpResponse ("Vista Entregables")
